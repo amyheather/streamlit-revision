@@ -4,10 +4,15 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 
-st.markdown("# Page 1 - basic concepts")
+# Create title using st.title() or st.markdown with #
+st.title("Page 1 - basic concepts")
+# st.markdown("# Page 1 - basic concepts")
+
 st.sidebar.markdown("# Sidebar for page 1")
 
 st.write("Hello world")
+
+st.subheader("Dataframes")
 
 dataframe = pd.DataFrame(
     np.random.randn(10, 20), columns=(f"col {i}" for i in range(20))
