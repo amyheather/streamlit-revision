@@ -10,6 +10,11 @@ st.set_page_config(
 
 st.sidebar.success("Constant item in sidebar")
 
+# Common widget that persist across all pages
+# (Instead of having on one page with persist_station="session")
+user_name = st.sidebar.text_input("Name", key="global_name")
+
+# Pages
 page1 = st.Page("pages/page1.py", title="Page 1")
 page2 = st.Page("pages/page2.py", title="Page 2")
 

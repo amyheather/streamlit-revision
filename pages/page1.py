@@ -43,9 +43,14 @@ map_data = pd.DataFrame(
 )
 st.map(map_data)
 
+# ----------------------------------------------------------------------------
+# Widgets
+# ----------------------------------------------------------------------------
+
 # Widgets. These can be accessed either:
 # - As a variable (so assign varname = st. ...)
 # - By key (so provide a key argument)
+# Using a key protects widget from resets when widget characteristics change
 x = st.slider("x")
 st.write(x)
 st.text_input("Your name", key="name")
@@ -56,7 +61,6 @@ if st.checkbox("show dataframe"):
     st.table(dataframe)
 
 # Selectbox
-st.selectbox(label="Which number do you like best?", options=[1, 2, 3, 4])
 
 # Organise widgets in left panel sidebar. Can either:
 # - Use object notation (st.sidebar. ...)
@@ -64,6 +68,36 @@ st.selectbox(label="Which number do you like best?", options=[1, 2, 3, 4])
 st.sidebar.selectbox(
     "How would you like to be contacted?", ("Email", "Home phone", "Mobile phone")
 )
+
+# To preserve widget values between pages, set persist_state="session"
+# Options are:
+# - None (default) - value is dropped when widget isn't rendered
+# - "page" - value is preserved while user stays on page
+# - "session" - value is preserved across entire session
+st.selectbox(
+    label="Which number do you like best?",
+    options=[1, 2, 3, 4],
+    key="favouritenumber",
+    persist_state="session"
+)
+
+# Alternatively can use bind
+# THis will sync a widgets value with a URL query parameter
+# Which makes it easy to create shareable URLs that preserve widget state
+# and alllow users to bookmark specific app configurations
+st.selectbox(
+    label="Color",
+    options=["Red", "Green", "Blue"],
+    key="color",
+    bind="query-params"
+)
+
+# st.expander() and st.time() also accept bind="query-params" with a key
+# so a shared URL can keep an expander open or a specific tab selected
+
+# ----------------------------------------------------------------------------
+# Page layout
+# ----------------------------------------------------------------------------
 
 # Columns
 left_col, right_col = st.columns(2)
@@ -73,6 +107,10 @@ with right_col:
 # Expander
 with st.expander("See hidden content"):
     st.write("Hello!")
+
+# ----------------------------------------------------------------------------
+# Progress
+# ----------------------------------------------------------------------------
 
 # Progress bar using st.progress()
 latest_iteration = st.empty()

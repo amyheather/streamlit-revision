@@ -129,6 +129,43 @@ if submit:
     st.write("You ran the form")
 
 # ----------------------------------------------------------------------------
+# Fragments
+# ----------------------------------------------------------------------------
+
+# Fragments allow rerunning a portion of code instead of full script
+# Create using the @st.fragment decorator
+@st.fragment
+def fragment_function():
+    if st.button("Hi!"):
+        st.write("Hello")
+
+fragment_function()
+
+# If you have slow independent fragments, you can run concurrently during app
+# full reruns with parallel=True
+
+# Example with button to run the fragment
+status = st.container(border=True)
+status.caption("Status - click refresh button in sidebar to update in fragment")
+@st.fragment
+def refresh_status():
+    st.sidebar.button("Refresh")
+    status.write(f"Last refreshed: {datetime.datetime.now()}")
+refresh_status()
+
+# Example with selectbox to run the fragment and st.rerun()
+@st.fragment(key="charts")
+def charts():
+    st.line_chart({"data": [1, 2, 3, 4]})
+charts()
+st.selectbox(
+    label="Region",
+    options=["North", "South", "East", "West"],
+    key="region",
+    on_change=lambda: st.rerun("charts")
+)
+
+# ----------------------------------------------------------------------------
 # Static
 # ----------------------------------------------------------------------------
 
