@@ -1,4 +1,5 @@
 import datetime
+
 import numpy as np
 import pandas as pd
 import requests
@@ -36,9 +37,9 @@ st.markdown("# Page 2 - advanced concepts")
 
 DATE_COLUMN = "date/time"
 DATA_URL = (
-    "https://s3-us-west-2.amazonaws.com/"
-    "streamlit-demo-data/uber-raw-data-sep14.csv.gz"
+    "https://s3-us-west-2.amazonaws.com/streamlit-demo-data/uber-raw-data-sep14.csv.gz"
 )
+
 
 # Can do custom spinner message
 @st.cache_data
@@ -51,23 +52,26 @@ def load_data(nrows, show_spinner="Fetching data from API..."):
     st.success("Fetched data")
     return data
 
-#data_load_state = st.text("Loading data...")
-#data = load_data(nrows=10000)
-#data_load_state.text("Loading data...done (using st.cache)!")
+
+# data_load_state = st.text("Loading data...")
+# data = load_data(nrows=10000)
+# data_load_state.text("Loading data...done (using st.cache)!")
 
 # Another example... here, we set time to live to get new results from
 # database, so streamlit invalidates any cached values after 1 hour (3600
 # seconds) and runs the cached function again
 # connection = database.connect()
-#@st.cache_data(ttl=3600)
-#def query():
+# @st.cache_data(ttl=3600)
+# def query():
 #    return pd.read_sql_query("SELECT * FROM table", connection)
+
 
 # It's also good to cache API calls
 @st.cache_data
 def api_call():
     response = requests.get("https://jsonplaceholder.typicode.com/posts/1")
     return response.json()
+
 
 # Whenever there is a long running computation in your code, consider
 # refactoring it to use st.cache_data - e.g.,
@@ -76,6 +80,8 @@ def transform(df):
     df = df.filter(items=["one", "three"])
     df = df.apply(np.sum, axis=0)
     return df
+
+
 # This includes e.g., running machine learning models
 
 # An alternative to cache_resource() is to use st.connection (simpler,
@@ -103,18 +109,24 @@ st.button("Run it again")
 
 if "count" not in st.session_state:
     st.session_state.count = 0
-    st.session_state.last_updated = datetime.time(0,0)
+    st.session_state.last_updated = datetime.time(0, 0)
+
 
 def update_counter(sign):
     st.session_state.count += sign * st.session_state.increment_value
     st.session_state.last_updated = st.session_state.update_time
 
+
 # Use forms to group widgets so they update app in single batch instead of invidiually
 with st.form(key="counter_form"):
     st.subheader("Inputs within a form")
-    st.time_input(label="Enter the time", value=datetime.datetime.now().time(), key="update_time")
+    st.time_input(
+        label="Enter the time", value=datetime.datetime.now().time(), key="update_time"
+    )
     st.number_input("Enter a value", value=0, step=1, key="increment_value")
-    submit = st.form_submit_button(label="Update", on_click=update_counter, kwargs={"sign": 1})
+    submit = st.form_submit_button(
+        label="Update", on_click=update_counter, kwargs={"sign": 1}
+    )
 
 # These are not within form so doesn't happen all together
 # When widget is not in form it will trigger rerun for every click
@@ -132,12 +144,14 @@ if submit:
 # Fragments
 # ----------------------------------------------------------------------------
 
+
 # Fragments allow rerunning a portion of code instead of full script
 # Create using the @st.fragment decorator
 @st.fragment
 def fragment_function():
     if st.button("Hi!"):
         st.write("Hello")
+
 
 fragment_function()
 
@@ -147,22 +161,29 @@ fragment_function()
 # Example with button to run the fragment
 status = st.container(border=True)
 status.caption("Status - click refresh button in sidebar to update in fragment")
+
+
 @st.fragment
 def refresh_status():
     st.sidebar.button("Refresh")
     status.write(f"Last refreshed: {datetime.datetime.now()}")
+
+
 refresh_status()
+
 
 # Example with selectbox to run the fragment and st.rerun()
 @st.fragment(key="charts")
 def charts():
     st.line_chart({"data": [1, 2, 3, 4]})
+
+
 charts()
 st.selectbox(
     label="Region",
     options=["North", "South", "East", "West"],
     key="region",
-    on_change=lambda: st.rerun("charts")
+    on_change=lambda: st.rerun("charts"),
 )
 
 # ----------------------------------------------------------------------------
@@ -179,15 +200,15 @@ st.selectbox(
 
 # This uses streamlit's native st.bar_chart(), but it also supports others
 # (matplolib, altair, plotly, echarts, etc.)
-#hist_values = np.histogram(data[DATE_COLUMN].dt.hour, bins=24, range=(0,24))[0]
-#st.bar_chart(hist_values)
+# hist_values = np.histogram(data[DATE_COLUMN].dt.hour, bins=24, range=(0,24))[0]
+# st.bar_chart(hist_values)
 
-#hour_to_filter = st.slider(
+# hour_to_filter = st.slider(
 #    label="hour",
 #    min_value=0,
 #    max_value=23,
 #    value=17
-#)
-#filtered_data = data[data[DATE_COLUMN].dt.hour == hour_to_filter]
-#st.subheader(f"Map of all pickups at {hour_to_filter}")
-#st.map(filtered_data)
+# )
+# filtered_data = data[data[DATE_COLUMN].dt.hour == hour_to_filter]
+# st.subheader(f"Map of all pickups at {hour_to_filter}")
+# st.map(filtered_data)

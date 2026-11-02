@@ -78,7 +78,7 @@ st.selectbox(
     label="Which number do you like best?",
     options=[1, 2, 3, 4],
     key="favouritenumber",
-    persist_state="session"
+    persist_state="session",
 )
 
 # Alternatively can use bind
@@ -86,10 +86,7 @@ st.selectbox(
 # Which makes it easy to create shareable URLs that preserve widget state
 # and alllow users to bookmark specific app configurations
 st.selectbox(
-    label="Color",
-    options=["Red", "Green", "Blue"],
-    key="color",
-    bind="query-params"
+    label="Color", options=["Red", "Green", "Blue"], key="color", bind="query-params"
 )
 
 # st.expander() and st.time() also accept bind="query-params" with a key
