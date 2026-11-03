@@ -23,6 +23,8 @@ user_name = st.sidebar.text_input("Name", key="global_name")
 # First will be opening page or can specify with default=True
 page1 = st.Page("pages/page1.py", title="Page 1")
 page2 = st.Page("pages/page2.py", title="Page 2")
+page_layout = st.Page("pages/layout.py", title="Layout")
+page_buttons = st.Page("pages/buttons.py", title="Buttons")
 
 # This allows us to specify page order without using the filenames like
 # 1_page 2_page etc.
@@ -32,7 +34,7 @@ page2 = st.Page("pages/page2.py", title="Page 2")
 
 # Can provide just straight list like below, or group with dict to make sections
 pg = st.navigation(
-    [page1, page2],
+    [page1, page2, page_layout, page_buttons],
     position="sidebar",  # Can change to "top"
 )
 

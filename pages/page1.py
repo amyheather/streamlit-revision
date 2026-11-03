@@ -93,19 +93,6 @@ st.selectbox(
 # so a shared URL can keep an expander open or a specific tab selected
 
 # ----------------------------------------------------------------------------
-# Page layout
-# ----------------------------------------------------------------------------
-
-# Columns
-left_col, right_col = st.columns(2)
-with right_col:
-    st.radio("Hat", ("Hat 1", "Hat 2", "Hat 3"))
-
-# Expander
-with st.expander("See hidden content"):
-    st.write("Hello!")
-
-# ----------------------------------------------------------------------------
 # Progress
 # ----------------------------------------------------------------------------
 
