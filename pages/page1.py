@@ -12,6 +12,43 @@ st.sidebar.markdown("# Sidebar for page 1")
 
 st.write("Hello world")
 
+# ----------------------------------------------------------------------------
+# Connecting to data
+# ----------------------------------------------------------------------------
+
+# Has support for various connections e.g., SQLLite
+
+# ----------------------------------------------------------------------------
+# Secrets
+# ----------------------------------------------------------------------------
+
+# Using secrets file
+
+# ----------------------------------------------------------------------------
+# User authentication
+# ----------------------------------------------------------------------------
+
+# User authentication now natively supported via OpenIC Connect
+# There are functions st.login(), st.logout() and st.user
+
+# ----------------------------------------------------------------------------
+# Classes
+# ----------------------------------------------------------------------------
+
+# Define your classes in a separate module
+# If you define it within the streamlit script, it will be redefined with
+# every run of the page, which can have unwanted effects
+
+# ----------------------------------------------------------------------------
+# Multithreading (i.e., parallal processing)
+# ----------------------------------------------------------------------------
+
+# Not natively supported but docs do explain a way to do it
+
+# ----------------------------------------------------------------------------
+# Dataframes and tables
+# ----------------------------------------------------------------------------
+
 st.subheader("Dataframes")
 
 dataframe = pd.DataFrame(
@@ -32,6 +69,35 @@ st.dataframe(dataframe.style.highlight_max(axis=0))
 
 # Static table
 st.table(dataframe)
+
+# Editable dataframe
+st.header("Editable dataframe")
+df = pd.DataFrame(
+    [
+        {"command": "st.selectbox", "rating": 2},
+        {"command": "st.balloons", "rating": 3},
+        {"command": "st.time_input", "rating": 4},
+    ]
+)
+edited_df = st.data_editor(df, num_rows="dynamic")
+favorite_command = edited_df.loc[edited_df["rating"].idxmax()]["command"]
+st.markdown(f"Your favorite command is **{favorite_command}** 🎈")
+
+# Editable other things! e.g., dictionaries
+st.subheader("Editable dictionary")
+st.data_editor({
+	"st.text_area": "widget",
+	"st.markdown": "element"
+})
+
+# Streamlit uses lazy loading for large dataframes
+# (i.e., just load what is visible)
+
+# ----------------------------------------------------------------------------
+# Line charts and maps
+# ----------------------------------------------------------------------------
+
+st.header("Line charts and maps")
 
 # Create line chart using Altair
 chart_data = pd.DataFrame(np.random.randn(20, 3), columns=["a", "b", "c"])
