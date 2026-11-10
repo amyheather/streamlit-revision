@@ -26,6 +26,9 @@ page2 = st.Page("pages/page2.py", title="Page 2")
 page_layout = st.Page("pages/layout.py", title="Layout")
 page_buttons = st.Page("pages/buttons.py", title="Buttons")
 page_custom = st.Page("pages/custom_components.py", title="Custom components")
+page_beans = st.Page("pages/beans.py", title="Beans")
+pagefirst = st.Page("pages/first.py")
+pagesecond = st.Page("pages/second.py")
 
 # This allows us to specify page order without using the filenames like
 # 1_page 2_page etc.
@@ -35,7 +38,7 @@ page_custom = st.Page("pages/custom_components.py", title="Custom components")
 
 # Can provide just straight list like below, or group with dict to make sections
 pg = st.navigation(
-    [page1, page2, page_layout, page_buttons, page_custom],
+    [page_buttons, pagefirst, pagesecond, page1, page2, page_layout, page_custom, page_beans],
     position="sidebar",  # Can change to "top"
 )
 

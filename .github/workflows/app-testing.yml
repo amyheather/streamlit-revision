@@ -1,0 +1,30 @@
+# Source: https://docs.streamlit.io/develop/concepts/app-testing/automate-tests
+
+name: Streamlit app
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+permissions:
+  contents: read
+
+jobs:
+  streamlit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+  
+      # Installs pytest and any dependencies in requirements.txt
+      # Runs built-in app smoke tests
+      # Then runs any other Python tests in repo
+      # Can also add linting with ruff : true
+      - uses: streamlit/streamlit-app-action@v0.0.3
+        with:
+          app-path: app.py
+          ruff: true
